@@ -26,7 +26,18 @@ router.post("/joingame", async (req, res) => {
 });
 
 router.get("/startgame", async (req, res) => {
-    pusher.trigger(req.body.pin, 'starting-game', 'game is gestart!')
+    pusher.trigger(req.body.pin, 'send-question', 'Game is gestart')
+    res.status(200).send('game is gestart')
+})
+
+router.get("/nextquestion", async (req, res) => {
+    pusher.trigger(req.body.pin, 'send-question', {
+        possibleAnswers: [
+            'baarmoeder',
+            'eierstokken',
+            'geen van alle',
+        ]
+    })
     res.status(200).send('game is gestart')
 })
 
