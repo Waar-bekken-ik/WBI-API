@@ -13,7 +13,10 @@ const gameSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    questions: []
+    questions: {
+        type: Array,
+        required: false
+    }
 });
 
 module.exports = mongoose.model('Game', gameSchema);
