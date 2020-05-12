@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const gameRoutes = require("./routes/game");
+const answerRoutes = require("./routes/answer");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -18,8 +19,11 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.get('/', (req, res) => res.send('WBI-API'))
+
 //routes
 app.use("/games", gameRoutes);
+app.use("/answer", answerRoutes);
 
 // Fire server
 app.listen({ port: process.env.SERVER_PORT }, () => {

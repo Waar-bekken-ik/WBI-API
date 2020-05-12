@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Game = require('../models/game');
+const Answer = require('../models/Answer');
 const pusher = require('../pusher')
 const generatePin = require('../helperfunctions/generatePin')
 
@@ -30,14 +31,30 @@ router.get("/startgame", async (req, res) => {
     res.status(200).send('game is gestart')
 })
 
-router.get("/nextquestion", async (req, res) => {
+router.post("/nextquestion", async (req, res) => {
+    const answers = await Answer.findById(req.body.id)
+    let possibleAnswers = answers.answers.filter((answer) => answer !== req.body.correctAnswer)
+    console.log(possibleAnswers)
+    function randomAnswers() {
+        var colArr = [];
+        for (var i = 0; i < 3; i++) {
+            var rand = possibleAnswers[Math.floor(Math.random() * possibleAnswers.length)];
+            possibleAnswers = possibleAnswers.filter((answer) => answer !== rand)
+            colArr.push(rand);
+        }
+        colArr.push(req.body.correctAnswer)
+        return colArr
+    }
+
     pusher.trigger(req.body.pin, 'send-question', {
-        possibleAnswers: [
-            'baarmoeder',
-            'eierstokken',
-            'geen van alle',
-        ]
+        possibleAnswers: randomAnswers(),
+        correctAnswer: req.body.correctAnswer
     })
+    res.status(200).send('game is gestart')
+})
+
+router.post("/sendanswer", async (req, res) => {
+    pusher.trigger(req.body.pin, 'send-answer', `${req.body.player} has answered with ${req.body.answer}`)
     res.status(200).send('game is gestart')
 })
 
