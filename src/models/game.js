@@ -13,6 +13,16 @@ const gameSchema = mongoose.Schema({
         type: Number,
         required: true
     },
+    questions: {
+        type: Array,
+        required: true
+    },
+    closed: {
+        type: Boolean
+    },
+    players: {
+        type: Array,
+    }
 });
 
 module.exports = mongoose.model('Game', gameSchema);

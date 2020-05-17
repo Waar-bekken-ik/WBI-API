@@ -19,7 +19,7 @@ router.get("/getanswers", async (req, res) => {
     Answer.findById(req.body.id)
         .exec((err, response) => {
             if (err) {
-                res.status(400).send();
+                res.status(400).send(err);
             }
             res.send(response);
         });
