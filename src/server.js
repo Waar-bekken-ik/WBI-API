@@ -23,7 +23,7 @@ app.get('/', (req, res) => res.send('WBI-API'))
 
 //routes
 app.use("/games", gameRoutes);
-app.use("/answer", answerRoutes);
+app.use("/answers", answerRoutes);
 
 // Fire server
 app.listen({ port: process.env.SERVER_PORT }, () => {

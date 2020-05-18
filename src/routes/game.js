@@ -52,9 +52,8 @@ router.post("/startgame", async (req, res) => {
 })
 
 router.post("/nextquestion", async (req, res) => {
-    const answers = await Answer.findById(req.body.id)
+    const answers = await Answer.findById('5eba9a959e05332dc4a17d7f')
     let possibleAnswers = answers.answers.filter((answer) => answer !== req.body.correctAnswer)
-    console.log(possibleAnswers)
     function randomAnswers() {
         var colArr = [];
         for (var i = 0; i < 3; i++) {

@@ -15,7 +15,6 @@ router.post("/answer", async (req, res) => {
 });
 
 router.get("/getanswers", async (req, res) => {
-    console.log(req.body)
     Answer.findById(req.body.id)
         .exec((err, response) => {
             if (err) {
