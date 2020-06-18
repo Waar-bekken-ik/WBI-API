@@ -64,7 +64,7 @@ router.post("/nextquestion", async (req, res) => {
         colArr.push(req.body.correctAnswer)
         return colArr
     }
-
+    console.log(randomAnswers())
     pusher.trigger(req.body.pin, 'send-question', {
         possibleAnswers: randomAnswers(),
         correctAnswer: req.body.correctAnswer
@@ -72,8 +72,22 @@ router.post("/nextquestion", async (req, res) => {
     res.status(200).json('Vraag is verstuurd')
 })
 
+router.post("/sendcorrectanswer", async (req, res) => {
+    pusher.trigger(req.body.pin.toString(), 'send-correct-answer', {
+        correctAnswer: req.body.correctAnswer,
+        lastQuestion: req.body.lastQuestion,
+    })
+    res.status(200).json('Het juiste antwoord is verstuurd')
+})
+
 router.post("/sendanswer", async (req, res) => {
-    pusher.trigger(req.body.pin, 'send-answer', `${req.body.player} has answered with ${req.body.answer}`)
+    pusher.trigger(req.body.pin.toString(), 'send-answer', `${req.body.player} has answered`)
+    res.status(200).json('Antwoord is verstuurd')
+})
+
+router.post("/sendscore", async (req, res) => {
+    pusher.trigger(req.body.pin.toString(), 'send-score', `${req.body.player}, ${req.body.score}`)
+    res.status(200).json('Je score is verstuurd')
 })
 
 module.exports = router;

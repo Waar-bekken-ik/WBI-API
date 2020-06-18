@@ -15,7 +15,7 @@ router.post("/answer", async (req, res) => {
 });
 
 router.get("/getanswers", async (req, res) => {
-    Answer.findById(req.body.id)
+    Answer.findById('5eba9a959e05332dc4a17d7f')
         .exec((err, response) => {
             if (err) {
                 res.status(400).send(err);
